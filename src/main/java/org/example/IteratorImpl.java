@@ -19,4 +19,8 @@ public class  IteratorImpl <T> implements Iterator<T> {
 
     }
 
+    @Override
+    public void remove() {
+
+    }
 }

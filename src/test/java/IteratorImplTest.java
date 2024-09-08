@@ -3,8 +3,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.security.SecureRandom;
-import java.util.Collection;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -24,6 +23,30 @@ public class IteratorImplTest {
         var collection = generateCollection();
         var iterator = new IteratorImpl<>(collection);
         IntStream.range(0, collection.size()).forEach(value -> iterator.next());
+        Assertions.assertThrows(NoSuchElementException.class, iterator::next);
+    }
+
+    @Test
+    void removeTest() {
+        var collection = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7));
+        var iterator = new IteratorImpl<>(collection);
+        iterator.remove();
+        IntStream.range(0, collection.size())
+                .forEach(value -> {
+                    Assertions.assertDoesNotThrow(iterator::next);
+                });
+        Assertions.assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void nextAfterRemoveTest() {
+        var collection = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7));
+        var iterator = new IteratorImpl<>(collection);
+        IntStream.range(0, collection.size() - 1)
+                .forEach(value -> {
+                    Assertions.assertDoesNotThrow(iterator::next);
+                });
+        iterator.remove();
         Assertions.assertThrows(NoSuchElementException.class, iterator::next);
     }
 
