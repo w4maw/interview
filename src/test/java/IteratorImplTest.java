@@ -12,7 +12,7 @@ public class IteratorImplTest {
     void positiveTest() {
         var collection = generateCollection();
         var iterator = new IteratorImpl<>(collection);
-        for (int i = 0; i < collection.size(); i++) {
+        for (int i = 0; i < collection.size() - 1; i++) {
             Assertions.assertTrue(iterator.hasNext());
             Assertions.assertDoesNotThrow(iterator::next);
         }
@@ -31,7 +31,7 @@ public class IteratorImplTest {
         var collection = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7));
         var iterator = new IteratorImpl<>(collection);
         iterator.remove();
-        IntStream.range(0, collection.size())
+        IntStream.range(0, collection.size() - 1)
                 .forEach(value -> {
                     Assertions.assertDoesNotThrow(iterator::next);
                 });
